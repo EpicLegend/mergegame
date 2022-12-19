@@ -33,7 +33,6 @@ export class ItemTemplate extends Component {
             this.node.parent = this.node.parent.parent.parent;
         });
         this.node.on(Node.EventType.TOUCH_MOVE, (event : EventTouch) => {
-            console.log("TOUCH_MOVE");
             let pos = event.getLocation();
             this.node.setWorldPosition( new Vec3(pos.x, pos.y, 0) );
         })
@@ -47,6 +46,7 @@ export class ItemTemplate extends Component {
                     this.node.parent = this.targetNode;
                     break;
                 case 2:
+                    // this.node.parent = this.targetNode;
                     // this.node.parent = this.targetNode;
                     // const count : number = this.node.parent.children[0].children.length;
                     // let index : number | null = null;
@@ -76,8 +76,6 @@ export class ItemTemplate extends Component {
          if (collider) {
              collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
              collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
-             collider.on(Contact2DType.PRE_SOLVE, this.onPreSolve, this);
-             collider.on(Contact2DType.POST_SOLVE, this.onPostSolve, this);
          }
     }
 
@@ -87,7 +85,6 @@ export class ItemTemplate extends Component {
     }
 
     onBeginContact (selfCollider: BoxCollider2D, otherCollider: BoxCollider2D, contact: IPhysics2DContact | null) {
-
         // Мы над ячейкой
         if(otherCollider.node.parent) {
             if( otherCollider.node.name == 'Cell' || otherCollider.node.parent.name == 'Cell') {
@@ -97,6 +94,11 @@ export class ItemTemplate extends Component {
                 // Ячейка не пуста
                 if ( countChildren ) {
                     this.currentTypeMove = this.typeMove.fullDifferent;
+                    // if ( otherCollider.node.name == 'Cell') { 
+                    //     this.targetNode = otherCollider.node;
+                    // } else if (otherCollider.node.parent.name == 'Cell') {
+                    //     this.targetNode = otherCollider.node;
+                    // }
                     this.targetNode = otherCollider.node;
                 }
                 // Ячейка пуста
@@ -108,6 +110,8 @@ export class ItemTemplate extends Component {
                 this.currentTypeMove = this.typeMove.default;
             }
         }
+        
+        console.log("тип события onBeginContact", this.currentTypeMove);
     }
     onEndContact (selfCollider: BoxCollider2D, otherCollider: BoxCollider2D, contact: IPhysics2DContact | null) {
         if(otherCollider.node.parent) {
@@ -122,7 +126,6 @@ export class ItemTemplate extends Component {
                 }
             }
         }
+        console.log("тип события onEndContact", this.currentTypeMove);
     }
-    onPreSolve (selfCollider: BoxCollider2D, otherCollider: BoxCollider2D, contact: IPhysics2DContact | null) {}
-    onPostSolve (selfCollider: BoxCollider2D, otherCollider: BoxCollider2D, contact: IPhysics2DContact | null) {}
 }

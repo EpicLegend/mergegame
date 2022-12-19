@@ -14,7 +14,7 @@ export class MapManager extends Component {
         this.generationMap();
     }
 
-    generationMap() {
+    private generationMap() {
 
         let countElements : number = this.getCountCell();
 
@@ -34,13 +34,14 @@ export class MapManager extends Component {
                 item.addChild( innerItem );
             }
 
+            // item.indexX = i;
             
             this.node.addChild( item );
         }
 
     }
 
-    public getCountCell() {
+    public getCountCell() : number {
         return this.countCellX * this.countCellY;
     }
 

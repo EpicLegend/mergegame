@@ -4,9 +4,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Item')
 export class Item {
-    @property(String) typeElement : string = '1';
+    @property(String) typeElement : string = '';
     @property(SpriteFrame) icon: SpriteFrame | null = null;
-    
 }
 
 @ccclass
@@ -14,11 +13,11 @@ export class ItemList extends Component {
     @property([Item]) items: Item[] = [];
     @property(Prefab) itemPrefab: Prefab | null = null;
 
-    getItems() {
+    public getItems() : Item[] {
         return this.items;
     }
 
-    getPrefab() {
+    public getPrefab() : Prefab | null {
         return this.itemPrefab;
     }
 }
